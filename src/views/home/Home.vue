@@ -1,6 +1,10 @@
 <template>
   <div id="home">
-    <nav-bar class="nav-bar" #center>购物街</nav-bar>
+    <nav-bar class="nav-bar">
+      <template #center>
+        购物街
+      </template>
+      </nav-bar>
     <scroll
       class="content"
       ref="scroll"
@@ -34,6 +38,7 @@ import HomeSwiper from "./childComps/HomeSwiper";
 import GoodsList from "./childComps/GoodsList";
 
 import home from "service/homeService";
+import debounce from "utils/utils";
 export default {
   name: "Home",
   components: {
@@ -82,7 +87,7 @@ export default {
       }
     },
     contentScroll(position) { 
-      console.log(position)
+      //console.log(position)
       // 1.决定tabFixed是否显示
       this.isTabFixed = position.y < -this.tabOffsetTop;
 
@@ -136,6 +141,12 @@ export default {
     this.getHomeProducts("pop");
     this.getHomeProducts("new");
     this.getHomeProducts("sell");
+  },
+  mounted(){
+    const refresh = debounce(this.$refs.scroll.refresh, 200)
+    this.$bus.$on('imageLoad',() =>{
+      refresh()
+    })
   }
 };
 </script>

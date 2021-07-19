@@ -9,6 +9,7 @@ module.exports = {
         'assets': '@/assets',
         'views': '@/views',
         'service': '@/apiService',
+        'utils': '@/utils',
       }
     }
   },

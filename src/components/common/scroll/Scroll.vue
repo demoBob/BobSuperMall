@@ -50,7 +50,7 @@
       // 3.监听scroll滚动到底部
       if (this.pullUpLoad) {
         this.scroll.on('pullingUp', () => {
-          console.log(123)
+          //console.log(123)
           this.$emit('pullingUp')
         })
       }
@@ -61,6 +61,7 @@
         this.scroll && this.scroll.scrollTo(x, y, time,undefined)
       },
       refresh() {
+        console.log('log23')
         this.scroll && this.scroll.refresh()
       },
       finishPullUp() {
@@ -70,12 +71,12 @@
         return this.scroll ? this.scroll.y : 0
       }
     },
-    updated () {
-        //重新计算高度
-        this.scroll.refresh();
-        //当数据加载完毕以后通知better-scroll
-        this.scroll.finishPullUp();
-    }
+    // updated () {
+    //     //重新计算高度
+    //     this.scroll.refresh();
+    //     //当数据加载完毕以后通知better-scroll
+    //     this.scroll.finishPullUp();
+    // }
   }
 </script>
 
