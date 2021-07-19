@@ -14,6 +14,11 @@ export default {
   name: 'App',
   components:{
     MainTabBar
+  },
+  data(){
+    return{
+      demo:'test'
+    }
   }
 }
 </script>
