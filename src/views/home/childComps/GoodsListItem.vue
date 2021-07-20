@@ -25,12 +25,8 @@ export default {
     // console.log(this.goods);
   },
   methods: {
-    goToDetail: function() {
-      // 1.获取iid
-      let iid = this.goods.iid;
-
-      // 2.跳转到详情页面
-      this.$router.push({ path: "/detail", query: { iid } });
+    goToDetail(){
+      this.$router.push('/detail/' + this.goods.iid)
     },
     itemImgLoad(){ //图片加载完成
       this.$bus.$emit('imageLoad')

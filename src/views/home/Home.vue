@@ -4,7 +4,8 @@
       <template #center>
         购物街
       </template>
-      </nav-bar>
+    </nav-bar>
+    <tab-control class="tab-controls" ref="tabControl1" @itemClick="tabClick" v-show="isTabFixed" :titles="['流行', '新款', '精选']"></tab-control>
     <scroll
       class="content"
       ref="scroll"
@@ -13,10 +14,10 @@
       :pull-up-load="true"
       :probe-type="3"
     >
-      <home-swiper :banners="banners" ref="hSwiper" ></home-swiper>
+      <home-swiper :banners="banners" ref="hSwiper" @swiperImgLoad="swiperImageLoad"></home-swiper>
       <feature-view :features="recommends"></feature-view>
       <recommend-view></recommend-view>
-      <tab-control class="tab-controls" @itemClick="tabClick" :titles="['流行', '新款', '精选']"></tab-control>
+      <tab-control ref="tabControl2" @itemClick="tabClick" :titles="['流行', '新款', '精选']"></tab-control>
       <goods-list :goods-list="showGoodsList"></goods-list>
     </scroll>
     <!-- native修饰符监听组件的原生事件 -->
@@ -85,6 +86,8 @@ export default {
           this.currentType = "sell";
           break;
       }
+      this.$refs.tabControl1.currentIndex = index;
+      this.$refs.tabControl2.currentIndex = index;
     },
     contentScroll(position) { 
       //console.log(position)
@@ -100,9 +103,9 @@ export default {
     backTop() {
       this.$refs.scroll.scrollTo(0, 0, 300)
     },
-    // swiperImageLoad() {
-    //   this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
-    // },
+    swiperImageLoad() {
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+    },
     /**
      * 网络请求相关方法
      */
