@@ -1,7 +1,7 @@
 <template>
   <div class="goods" @click="goToDetail">
     <!-- <img v-lazy="getImg" :key="getImg" alt /> -->
-    <img  :src="goods.show.img" alt @load="itemImgLoad" />
+    <img  :src="getImg" alt @load="itemImgLoad" />
     <div class="goods-info">
       <p>{{goods.title}}</p>
       <span class="price">¥{{goods.price}}</span>
@@ -29,7 +29,12 @@ export default {
       this.$router.push('/detail/' + this.goods.iid)
     },
     itemImgLoad(){ //图片加载完成
-      this.$bus.$emit('imageLoad')
+    //console.log(this.$route.path)
+      if(this.$route.path.includes('detail')){
+        this.$bus.$emit('detailImageLoad')
+      }else if(this.$route.path.includes('home')){
+        this.$bus.$emit('homeImageLoad')
+      }
     }
   },
   computed: {

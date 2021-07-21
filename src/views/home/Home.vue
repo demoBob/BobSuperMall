@@ -146,8 +146,8 @@ export default {
     this.getHomeProducts("sell");
   },
   mounted(){
-    const refresh = debounce(this.$refs.scroll.refresh, 200)
-    this.$bus.$on('imageLoad',() =>{
+    const refresh = debounce(this.$refs.scroll.refresh, 50)
+    this.$bus.$on('homeImageLoad',() =>{
       refresh()
     })
   }
