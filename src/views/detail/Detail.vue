@@ -1,7 +1,7 @@
 <template>
   <div id="detail">
-    <detail-nav-bar @itemClick="titleClick" class="detail-nav" />
-    <scroll class="content" ref="scroll">
+    <detail-nav-bar @itemClick="titleClick" class="detail-nav" ref="nav" />
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
       <detail-swiper ref="base" :topImages="topImages" />
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
@@ -57,7 +57,8 @@ export default {
       paramInfo: {},
       recommendList: [],
       themeTops: [],
-      commentInfo:{}
+      commentInfo:{},
+      currentIndex:0
     };
   },
   created() {
@@ -89,6 +90,19 @@ export default {
       this.themeTops.push(Number.MAX_VALUE);
       console.log(this.themeTops);
     },
+    contentScroll(position){
+      const positionY = -position.y;
+      //console.log(positionY)
+      
+      let length = this.themeTops.length;
+      for(let i = 0;i<length-1;i++){
+        if(this.currentIndex !== i && (positionY >= this.themeTops[i] && positionY < this.themeTops[i+1])){
+            this.currentIndex = i;
+            this.$refs.nav.currentIndex = this.currentIndex
+            console.log('currentIndex',this.currentIndex)
+        }
+      }
+    },
     _getRecommend() {
       getRecommend().then((res, error) => {
         if (error) return;
@@ -101,7 +115,7 @@ export default {
       // 2.根据iid请求详情数据
       getDetail(this.iid).then(res => {
         // 1.获取顶部的图片轮播数据
-        console.log(res);
+        //console.log(res);
         const data = res.result;
         this.topImages = data.itemInfo.topImages;
 
@@ -111,7 +125,7 @@ export default {
           data.columns,
           data.shopInfo.services
         );
-        console.log(this.goods);
+        //console.log(this.goods);
 
         // 3.创建店铺信息的对象
         this.shop = new Shop(data.shopInfo);
