@@ -40,6 +40,8 @@ import GoodsList from "./childComps/GoodsList";
 
 import home from "service/homeService";
 import debounce from "utils/utils";
+
+import {backTopMixin} from 'utils/mixin';
 export default {
   name: "Home",
   components: {
@@ -52,6 +54,7 @@ export default {
     GoodsList,
     BackTop
   },
+  mixins:[backTopMixin],
   data() {
     return {
       banners: [],
@@ -64,7 +67,6 @@ export default {
       currentType: "pop",
       isTabFixed: false,
       tabOffsetTop: 0,
-      showBackTop: true,
       saveY: 0
     };
   },
@@ -99,9 +101,6 @@ export default {
     },
     loadMore() {
       this.getHomeProducts(this.currentType);
-    },
-    backTop() {
-      this.$refs.scroll.scrollTo(0, 0, 300)
     },
     swiperImageLoad() {
       this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;

@@ -10,6 +10,10 @@
       <detail-comment-info ref="comment" :comment-info="commentInfo"></detail-comment-info>
       <detail-recommend-info ref="recommend" :recommend-list="recommendList"></detail-recommend-info>
     </scroll>
+    <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
+     <back-top @click.native="backTop" class="back-top" v-show="showBackTop">
+      <img src="~assets/img/common/top.png" alt="">
+    </back-top>
   </div>
 </template>
 
@@ -24,6 +28,10 @@ import DetailCommentInfo from "./childComps/DetailCommentInfo";
 import DetailRecommendInfo from "./childComps/DetailRecommendInfo";
 
 import Scroll from "components/common/scroll/Scroll";
+import BackTop from 'content/backTop/BackTop';
+import DetailBottomBar from './childComps/DetailBottomBar';
+
+import {backTopMixin} from 'utils/mixin';
 
 import {
   getDetail,
@@ -45,8 +53,11 @@ export default {
     DetailParamInfo,
     DetailCommentInfo,
     DetailRecommendInfo,
-    Scroll
+    DetailBottomBar,
+    Scroll,
+    BackTop
   },
+  mixins: [backTopMixin],
   data() {
     return {
       iid: null,
@@ -58,19 +69,21 @@ export default {
       recommendList: [],
       themeTops: [],
       commentInfo:{},
-      currentIndex:0
+      currentIndex:0,
+      getOffsetTops:null
     };
   },
   created() {
+    this.getOffsetTops = debounce(this._getOffsetTops, 50);
     this._getRecommend();
     this._getDetailData();
   },
   mounted() {
     const refresh = debounce(this.$refs.scroll.refresh, 50);
-    const getOffsetTops = debounce(this._getOffsetTops, 50);
+    
     this.$bus.$on("detailImageLoad", () => {
       refresh();
-      getOffsetTops();
+      this.getOffsetTops();
     });
   },
   methods: {
@@ -80,6 +93,18 @@ export default {
     titleClick(index) {
       console.log(this.themeTops[index]);
       this.$refs.scroll.scrollTo(0, -this.themeTops[index], 100);
+    },
+    addToCart() {
+      // 1.创建对象
+      const obj = {}
+      // 2.对象信息
+      obj.iid = this.iid;
+      obj.imgURL = this.topImages[0]
+      obj.title = this.goods.title
+      obj.desc = this.goods.desc;
+      obj.newPrice = this.goods.nowPrice;
+      // 3.添加到Store中
+      this.$store.commit('addCart', obj)
     },
     _getOffsetTops() {
       this.themeTops = [];
@@ -91,8 +116,13 @@ export default {
       console.log(this.themeTops);
     },
     contentScroll(position){
+      
+
       const positionY = -position.y;
       //console.log(positionY)
+
+      //监听backTop的显示
+      this.showBackTop = positionY > 1000
       
       let length = this.themeTops.length;
       for(let i = 0;i<length-1;i++){
@@ -165,6 +195,13 @@ export default {
   .content {
     height: calc(100% - 44px);
     overflow: hidden;
+    position: relative;
+  }
+
+  .back-top {
+    position: fixed;
+    right: 10px;
+    bottom: 65px;
   }
 }
 </style>

@@ -37,7 +37,7 @@
         pullUpLoad: this.pullUpLoad
       })
 
-      console.log(this.probeType,this.pullUpLoad)
+      //console.log(this.probeType,this.pullUpLoad)
 
 
       // 2.监听滚动的位置
@@ -57,11 +57,11 @@
     },
     methods: {
       scrollTo(x, y, time=300) {
-        console.log('test2')
-        this.scroll && this.scroll.scrollTo(x, y, time,undefined)
+        //console.log('test2')
+        this.scroll && this.scroll.scrollTo(x, y, time)
       },
       refresh() {
-        console.log('log23')
+        console.log('refresh')
         this.scroll && this.scroll.refresh()
       },
       finishPullUp() {
