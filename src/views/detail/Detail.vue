@@ -105,6 +105,7 @@ export default {
       obj.newPrice = this.goods.nowPrice;
       // 3.添加到Store中
       this.$store.commit('addCart', obj)
+      this.$toast.show('添加购物车成功',2000)
     },
     _getOffsetTops() {
       this.themeTops = [];
