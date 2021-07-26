@@ -34,6 +34,8 @@ export default {
         this.$bus.$emit('detailImageLoad')
       }else if(this.$route.path.includes('home')){
         this.$bus.$emit('homeImageLoad')
+      }else if(this.$route.path.includes('category')){
+        this.$bus.$emit('categoryImageLoad')
       }
     }
   },

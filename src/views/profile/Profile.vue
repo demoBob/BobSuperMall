@@ -1,7 +1,7 @@
 <template>
   <div id="profile">
     <nav-bar class="nav-bar">
-      <div slot="center">小码哥商城</div>
+      <div slot="center">博文商城</div>
     </nav-bar>
     <!--1.单独封装一个组件: 利用slot知识点-->
     <UserInfo></UserInfo>

@@ -1,5 +1,5 @@
 <template>
-  <scroll id="tab-menu">
+  <scroll id="tab-menu" ref="Tabscroll">
     <div class="menu-list">
       <div
         class="menu-list-item"
@@ -32,6 +32,16 @@ export default {
     itemClick(index) {
       this.currentIndex = index;
       this.$emit("selectItem", index);
+    }
+  },
+  watch: {
+    categories(newvalues){
+      console.log(newvalues)
+      if(newvalues){
+        setTimeout(() =>{
+          this.$refs.Tabscroll.refresh()
+        },200)
+      }
     }
   }
 };

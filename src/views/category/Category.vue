@@ -26,6 +26,8 @@ import Scroll from "common/scroll/Scroll";
 import TabContentCategory from "./childComps/TabContentCategory";
 import TabContentDetail from "./childComps/TabContentDetail";
 
+import debounce from "utils/utils";
+
 import {
   getCategory,
   getSubcategory,
@@ -126,6 +128,13 @@ export default {
     selectItem(index) {
       this._getSubcategories(index);
     }
+  },
+  mounted(){
+    const refresh = debounce(this.$refs.categoryScroll.refresh, 50);
+    
+    this.$bus.$on("categoryImageLoad", () => {
+      refresh();
+    });
   }
 };
 </script>
@@ -146,6 +155,7 @@ export default {
     right: 0;
     top: 44px;
     bottom: 49px;
+    overflow: hidden;
 
     display: flex;
 
