@@ -83,12 +83,12 @@ export default {
     
     this.$bus.$on("detailImageLoad", () => {
       refresh();
-      this.getOffsetTops();
     });
   },
   methods: {
     imageLoad() {
       this.$refs.scroll.refresh();
+      this.getOffsetTops();
     },
     titleClick(index) {
       console.log(this.themeTops[index]);
